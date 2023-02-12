@@ -1,5 +1,8 @@
 package com.udacity.asteroidradar.ui.main
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -13,14 +16,17 @@ class MainViewModel(private val myRepository: AsteroidRepository,
                     // For Handle Process Death If Needed
                     private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
-    private val weekAsteroidList = myRepository.asteroidList
+    private val saveAsteroidList = myRepository.asteroidList
+    @RequiresApi(Build.VERSION_CODES.O)
     private val todayAsteroidList = myRepository.todayAsteroidList
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val weekAsteroidList = myRepository.weekAsteroidList
+
     val asteroidList: MediatorLiveData<List<Asteroid>> = MediatorLiveData()
 
     val pictureOfDay = myRepository.pictureOfDay
 
     private val _navigateToSelectedProperty = MutableLiveData<Asteroid?>()
-
     val navigateToDetailsScreen: LiveData<Asteroid?>
         get() = _navigateToSelectedProperty
 
@@ -45,7 +51,7 @@ class MainViewModel(private val myRepository: AsteroidRepository,
         viewModelScope.launch {
             myRepository.getAsteroidList()
             myRepository.getNasaPictureOfDay()
-            asteroidList.addSource(todayAsteroidList) {
+            asteroidList.addSource(saveAsteroidList) {
                 asteroidList.value = it
             }
         }
@@ -59,32 +65,34 @@ class MainViewModel(private val myRepository: AsteroidRepository,
         _navigateToSelectedProperty.value = null
     }
 
-
-
+    @RequiresApi(Build.VERSION_CODES.O)
     fun onViewAsteroidsClicked(enumValue: MainFragment.MenuEnum) {
         removeSource()
         when (enumValue) {
             MainFragment.MenuEnum.WEEK -> {
                 asteroidList.addSource(weekAsteroidList) {
                     asteroidList.value = it
+                    Log.e("ListOfDataY", "${it.size}")
                 }
             }
             MainFragment.MenuEnum.TODAY -> {
                 asteroidList.addSource(todayAsteroidList) {
                     asteroidList.value = it
+                    Log.e("ListOfDataY", "${it.size}")
                 }
             }
             MainFragment.MenuEnum.SAVE -> {
-                asteroidList.addSource(weekAsteroidList) {
+                asteroidList.addSource(saveAsteroidList) {
                     asteroidList.value = it
                 }
             }
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun removeSource() {
         asteroidList.removeSource(todayAsteroidList)
         asteroidList.removeSource(weekAsteroidList)
+        asteroidList.removeSource(saveAsteroidList)
     }
-
 }

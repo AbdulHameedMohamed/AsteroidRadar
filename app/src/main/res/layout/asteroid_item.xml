@@ -18,15 +18,16 @@
 
         <TextView
             android:id="@+id/tv_asteroid_name"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/v_padding"
             android:text="@{asteroid.codename}"
             android:textColor="@color/default_text_color"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_asteroid_hazard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:ellipsize="end"
             tools:text="Asteroid Name" />
 
         <TextView
@@ -53,6 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:statusIcon="@{asteroid.potentiallyHazardous}"
-            tools:contentDescription="@string/asteroid_img" />
+            app:descriptionStatusIcon= "@{asteroid.potentiallyHazardous}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

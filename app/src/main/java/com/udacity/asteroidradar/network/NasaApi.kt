@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.network
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.udacity.asteroidradar.BuildConfig
 import com.udacity.asteroidradar.utils.Constants
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -13,7 +14,7 @@ private fun apiKeyInterceptor(it: Interceptor.Chain): Response {
     val originalRequest = it.request()
 
     val newHttpUrl = originalRequest.url.newBuilder()
-        .addQueryParameter("api_key", Constants.API_KEY)
+        .addQueryParameter("api_key", BuildConfig.API_KEY)
         .build()
 
     val newRequest = originalRequest.newBuilder()

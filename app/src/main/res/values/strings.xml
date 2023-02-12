@@ -19,6 +19,6 @@
     <string name="not_hazardous_asteroid_image">Not hazardous asteroid image</string>
     <string name="nasa_picture_of_day_content_description_format">NASA\'s picture of day: %s</string>
     <string name="image_of_the_day_from_nasa">Image Of the Day From Nasa</string>
-    <string name="list_of_asteroid_list">List Of Asteroid List</string>
+    <string name="list_of_asteroids">List Of Asteroids</string>
     <string name="asteroid_img">Asteroid Item Image</string>
 </resources>
